@@ -10,6 +10,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import in.deepaksood.scoreboard.model_package.CricketDataModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Log.e(TAG,"Success Response: "+response);
+                        final Gson gson = new Gson();
+                        CricketDataModel cricketDataModel;
+                        try {
+                            JSONObject rootObject = new JSONObject(response);
+                            cricketDataModel = gson.fromJson(rootObject.toString(), CricketDataModel.class);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
